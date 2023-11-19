@@ -31,7 +31,6 @@ export const publicRoutes = [
     { path: routes.orderDetail, Component: orderDetail },
     { path: routes.billConfirm, Component: BillCornfirm },
 ]
-
 export const privateRoutes = [
     { path: routes.admin, Component: dashboardPage },
     { path: routes.adminDashboard, Component: dashboardPage },

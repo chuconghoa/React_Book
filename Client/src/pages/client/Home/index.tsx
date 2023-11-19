@@ -15,7 +15,7 @@ const homePage = () => {
     useEffect(() => {
         void dispatch(getAllProduct())
     }, [dispatch]);
-    const newProducts = products.slice(0, 10);
+    const newProducts = products.slice(0, 5);
     return <>
         <Header />
         <div className="w-[1170px] mx-auto">

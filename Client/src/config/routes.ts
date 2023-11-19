@@ -9,8 +9,8 @@ const routes = {
     checkout: "/checkout",
     order: "account/order",
     orderDetail: "account/order/:id",
+    orderUser : "account/user",
     billConfirm: "/invoice/:id",
-
     // Admin 
     admin: "/admin",
     adminDashboard: "/admin/dashboard",

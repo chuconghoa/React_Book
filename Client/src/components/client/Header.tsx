@@ -8,15 +8,13 @@ import {
     LoginOutlined,
     MenuOutlined
 } from '@ant-design/icons';
-import { Badge, Button, Drawer, Dropdown, Form, MenuProps, Popover, Space, message } from "antd";
+import { Badge, Button, Drawer, Dropdown, Form, Menu, MenuProps, Popover, Space, message } from "antd";
 import { AnyIfEmpty, useDispatch, useSelector } from "react-redux";
 import { authLogout } from "../../redux/Reducer/authSlice";
 import { useAppSelector } from "../../redux/hook";
 import { getAllCart, removeCart } from "../../redux/Reducer/CartSlice";
 import ICart from "../../interface/cart";
-
-
-
+import { getAllCategory } from "../../redux/Reducer/CategorySlice";
 const Header = () => {
     const dispatch: Dispatch<any> = useDispatch()
     const [form] = Form.useForm();
@@ -24,13 +22,18 @@ const Header = () => {
     const [open, setOpen] = useState(false);
     const user = useAppSelector((state: any) => state.auth.auth);
     const cartData = useAppSelector((state) => state.Cart.carts);
+    const category = useAppSelector((state) => state.category.categories);
     const carts = cartData.filter((cart: ICart) => cart.userId === user?.user?._id);
     let totalMoney: number = 0;
     carts?.map((item: any) => {
         totalMoney += item.totalMoney
     })
-
+    // category usereffect
+    useEffect(() => {
+        dispatch(getAllCategory()); // Dispatch the action to get categories on component mount
+    }, [dispatch]);
     // const [quantity, setQuantity] = useState(1)
+    // useEffect products
     useEffect(() => {
         // setIsLoading(true);
         dispatch(getAllCart())
@@ -87,18 +90,6 @@ const Header = () => {
     ];
     return (
         <div className="">
-            <div className="bg-slate-100 h-8 flex items-center">
-                <div className="flex w-[1170px] mx-auto text-gray-400 text-sm items-center justify-between ">
-                    <div className="flex p-1">
-                        <span className="block border-r-[2px] px-1">
-                            Hotline: 0968 0968
-                        </span>
-                        <span className="block px-1">
-                            <Link to={`/contact`}>Liên hệ</Link>
-                        </span>
-                    </div>
-                </div>
-            </div>
             <div className="flex w-[1170px] mx-auto items-center justify-between">
                 <div className="">
                     <Link to={`/`}>
@@ -174,12 +165,23 @@ const Header = () => {
             </div >
             <div className="bg-primary h-12 ">
                 <div className="w-[1170px] mx-auto flex items-center justify-between">
-                    <Dropdown menu={{ items }} trigger={['click']} className="w-[300px] bg-blue-400 px-3">
+                    <Dropdown
+                        overlay={
+                            <Menu>
+                                {category.map((category) => (
+                                    <Menu.Item key={category._id} className="h-10">
+                                        {category.name}
+                                    </Menu.Item>
+                                ))}
+                            </Menu>
+                        }
+                        trigger={['click']}
+                        className="w-[300px] bg-blue-400 px-3"
+                    >
                         <span onClick={(e) => e.preventDefault()} className="leading-12 h-12 text-white flex items-center">
                             <MenuOutlined className="text-xl mr-3" /> DANH MỤC SẢN PHẨM
                         </span>
                     </Dropdown>
-
                 </div>
 
             </div>
