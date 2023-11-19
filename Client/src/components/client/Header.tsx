@@ -24,6 +24,7 @@ const Header = () => {
     const cartData = useAppSelector((state) => state.Cart.carts);
     const category = useAppSelector((state) => state.category.categories);
     const carts = cartData.filter((cart: ICart) => cart.userId === user?.user?._id);
+    const [selectedCategory, setSelectedCategory] = useState(null);
     let totalMoney: number = 0;
     carts?.map((item: any) => {
         totalMoney += item.totalMoney
@@ -32,7 +33,6 @@ const Header = () => {
     useEffect(() => {
         dispatch(getAllCategory()); // Dispatch the action to get categories on component mount
     }, [dispatch]);
-    // const [quantity, setQuantity] = useState(1)
     // useEffect products
     useEffect(() => {
         // setIsLoading(true);

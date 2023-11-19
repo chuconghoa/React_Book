@@ -8,6 +8,7 @@ import {
     AppstoreAddOutlined,
     LogoutOutlined,
     TagOutlined,
+    UserOutlined
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, Popconfirm, Space, message, theme } from 'antd';
@@ -47,6 +48,7 @@ const AdminLayout = ({ children }: Props) => {
             getItem(<Link to={"/admin/category"}>View List</Link >, '6'),
         ]),
         getItem(<Link to={"/admin/order"}>Order</Link >, '7', <TagOutlined />),
+        getItem(<Link to={"/admin/user"}>Uers</Link >, '8', <UserOutlined />),
     ];
 
     const {

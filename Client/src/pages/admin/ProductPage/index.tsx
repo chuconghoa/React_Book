@@ -30,13 +30,11 @@ interface DataType {
     discount: number,
     categoryId: string,
 }
-
 const productPage = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const products = useAppSelector((state) => state.product.products);
     const { register, handleSubmit } = useForm();
-
     useEffect(() => {
         setIsLoading(true);
         void dispatch(getAllProduct()).then(() => {
@@ -49,7 +47,7 @@ const productPage = () => {
     const [messageApi, contextHolder] = message.useMessage();
 
     const urlParams = new URLSearchParams(location.search);
-
+    
     const handFound = (e: any) => {
         const searchText = e._searchText;
 
@@ -204,7 +202,7 @@ const productPage = () => {
                     </div>
 
                 ) : (
-                    <Table columns={columns} dataSource={data} pagination={{ pageSize: 20 }} />
+                    <Table columns={columns} dataSource={data} pagination={{ pageSize: 4 }} />
                 )}
             </div>
         </div>

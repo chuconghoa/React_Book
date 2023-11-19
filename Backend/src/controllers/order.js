@@ -2,7 +2,6 @@ import Order from '../models/order'
 import OrderDetail from '../models/orderDetail'
 import Product from '../models/product'
 import Cart from '../models/cart'
-
 export const getAll = async (req, res) => {
     const {
         _page = 1,

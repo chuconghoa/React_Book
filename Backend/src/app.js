@@ -10,6 +10,7 @@ import cartRouter from "./routes/cart";
 import orderRouter from "./routes/order";
 import orderDeatailRouter from "./routes/orderDetail";
 import mongoose from "mongoose";
+// import routerCustomer from "./routes/customer";
 
 dotenv.config();
 
@@ -24,8 +25,8 @@ app.use("/api/categories", categoryRouter)
 app.use("/api/products", productRouter)
 app.use("/api/images", uploadRouter);
 app.use("/api", userRouter);
+// app.use("/api", routerCustomer);
 app.use("/api/carts", cartRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/orderDetails", orderDeatailRouter);
-
 export const viteNodeApp = app;

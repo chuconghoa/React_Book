@@ -49,7 +49,6 @@ export const getProducts = async (req, res) => {
             _minPrice,
             _maxPrice
         } = req.query;
-
         let query = {};
         if (_searchText) {
             query.$text = {
@@ -94,7 +93,6 @@ export const getProducts = async (req, res) => {
             ...options,
             populate: [{ path: "categoryId", select: "name" }]
         });
-
         if (products.length === 0) {
             return res.status(404).json({
                 message: "There are no product in the list.",

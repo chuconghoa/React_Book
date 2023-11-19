@@ -31,8 +31,6 @@ interface DataType {
     totalMoney: number;
     paymentStatus: number;
 }
-
-
 const ordersPage = () => {
     const dispatch: Dispatch<any> = useDispatch()
     const navigate = useNavigate();
@@ -212,8 +210,8 @@ const ordersPage = () => {
     let data: DataType[] = [];
 
     if (orders) {
-        data = orders.map((order: any) => ({
-            key: order._id,
+        data = orders.map((order: any , index: number) => ({
+            key: order._id || index,
             date: order.createdAt,
             fullName: order.fullName,
             status: order.status,
@@ -223,7 +221,6 @@ const ordersPage = () => {
 
         }));
     }
-
     const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
         console.log('params', pagination, filters, sorter, extra);
     };
@@ -249,7 +246,7 @@ const ordersPage = () => {
                         </button>
                     </form>
                 </div>
-                <Table columns={columns} dataSource={data} pagination={{ pageSize: 10 }} onChange={onChange} />
+                <Table columns={columns} dataSource={data} pagination={{ pageSize: 5 }} onChange={onChange} />
             </div>
         </div>
     )

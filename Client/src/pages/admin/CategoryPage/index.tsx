@@ -110,7 +110,7 @@ const categoryPage = () => {
                     </div>
 
                 ) : (
-                    <Table columns={columns} dataSource={data} pagination={{ pageSize: 20 }} onChange={onChange} />
+                    <Table columns={columns} dataSource={data} pagination={{ pageSize: 5 }} onChange={onChange} />
                 )}
             </div>
         </div>

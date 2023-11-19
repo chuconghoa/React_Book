@@ -70,17 +70,17 @@ const BillCornfirm = () => {
                             <img className="w-24 object-cover" src="../../public/image/logo.png" alt="" />
                         </div>
                         <span className="block font-semibold text-lg p-1">
-                            Ducky BookStore
+                             BookStore
                         </span>
-                        <span className="block p-1">
+                        {/* <span className="block p-1">
                             86 Quảng Oai, Ba Vì, Hà Nội
                         </span>
                         <span className="block p-1">
-                            0986198509
-                        </span>
-                        {/* <span className="block p-1">
-                            Ngày đặt: {date()}
+                            0353540120
                         </span> */}
+                        <span className="block p-1">
+                            Ngày đặt: {date()}
+                        </span>
                     </div>
                 </div>
                 <div className="">
