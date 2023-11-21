@@ -1,15 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import IProduct from "../../interface/product";
+import { Iuser } from "../../interface/user";
 
 interface initialState {
-    products: IProduct[];
+    user: Iuser[];
     loading: boolean;
     error: string | undefined;
 }
 
 const initialState: initialState = {
-    products: [],
+      user: [],
     loading: false,
     error: "",
 };
@@ -20,30 +20,18 @@ export const getAllProduct = createAsyncThunk(
         // console.log(query);
         const {
             data: { products }
-        } = await axios.get<{ products: IProduct[] }>(
+        } = await axios.get<{ products: Iuser[] }>(
             `http://localhost:8080/api/products${query ?? ""}`
         );
         // console.log(products);
         return products;
     }
 );
-// thêm sản phẩn 
-export const createProduct = createAsyncThunk(
-    "products/addProducts",
-    async (product: IProduct) => {
-        const { data } = await axios.post<{ product: IProduct }>(
-            "http://localhost:8080/api/products",
-            product
-        );
-
-        return data;
-    }
-);
 // cập nhật sản phẩm 
 export const updateProduct = createAsyncThunk(
     "products/updateProducts",
-    async (product: IProduct) => {
-        const { data } = await axios.patch<{ product: IProduct }>(
+    async (product: Iuser) => {
+        const { data } = await axios.patch<{ product: Iuser }>(
             `http://localhost:8080/api/products/${product._id!}`,
             product
         );
@@ -60,12 +48,12 @@ export const removeProduct = createAsyncThunk(
     }
 );
 // làm cập nhật trang thái snar 
-const productSlice = createSlice({
-    name: "product",
+const UserSlice = createSlice({
+    name: "user",
     initialState,
     reducers: {
-        getProduct: (state, action) => {
-            state.products = action.payload;
+        getUser: (state, action) => {
+            state.user = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -75,28 +63,28 @@ const productSlice = createSlice({
             })
             .addCase(getAllProduct.fulfilled, (state, action) => {
                 // console.log(action.payload);
-                state.products = action.payload.data;
+                state.user = action.payload.data;
                 state.loading = false;
             })
             .addCase(getAllProduct.rejected, (state) => {
                 state.loading = false;
             })
             // Add Product
-            .addCase(createProduct.pending, (state) => {
-                state.loading = true;
-            })
-            .addCase(createProduct.fulfilled, (state) => {
-                state.loading = false;
-            })
-            .addCase(createProduct.rejected, (state) => {
-                state.loading = false;
-            })
+            // .addCase(createProduct.pending, (state) => {
+            //     state.loading = true;
+            // })
+            // .addCase(createProduct.fulfilled, (state) => {
+            //     state.loading = false;
+            // })
+            // .addCase(createProduct.rejected, (state) => {
+            //     state.loading = false;
+            // })
             // Update Product
             .addCase(updateProduct.pending, (state) => {
                 state.loading = true;
             })
             .addCase(updateProduct.fulfilled, (state, action) => {
-                state.products = state.products?.map((product: IProduct) =>
+                state.user = state.user?.map((product: Iuser) =>
                     product._id === action?.payload?.product?._id
                         ? action.payload.product
                         : product
@@ -111,8 +99,8 @@ const productSlice = createSlice({
                 state.loading = true;
             })
             .addCase(removeProduct.fulfilled, (state, action) => {
-                state.products = state.products?.filter(
-                    (product: IProduct) => product._id !== action.payload
+                state.user = state.user?.filter(
+                    (product: Iuser) => product._id !== action.payload
                 );
 
                 state.loading = false;
@@ -123,6 +111,6 @@ const productSlice = createSlice({
     },
 });
 
-export const { getProduct } = productSlice.actions;
-export default productSlice.reducer;
+export const { getUser } = UserSlice.actions;
+export default UserSlice.reducer;
 

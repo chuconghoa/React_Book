@@ -2,7 +2,6 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import CategorySlice from "./Reducer/CategorySlice";
 import ProductSlice from "./Reducer/ProductSlice";
 import authSlice from "./Reducer/authSlice";
-
 import {
     FLUSH,
     PAUSE,
@@ -16,6 +15,9 @@ import {
 import storage from "redux-persist/lib/storage";
 import CartSlice from "./Reducer/CartSlice";
 import OrderSlice from "./Reducer/OrderSlice";
+import CustomerSlice from "./Reducer/Customer"
+import UserSlice from "./Reducer/UserSlice";
+
 
 const persistConfig = {
     key: "user",
@@ -29,6 +31,8 @@ const rootReducer = combineReducers({
     auth: authSlice,
     Cart: CartSlice,
     Order: OrderSlice,
+    user : UserSlice,
+    customer : CustomerSlice
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
