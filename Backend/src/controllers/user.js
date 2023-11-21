@@ -1,99 +1,82 @@
-import User from "../models/user";
-import bcrypt from "bcryptjs";
-import { loginSchema, registerSchema } from "../schemas/user";
-import { generalAccessToken } from "../services/jwtServices";
-
-// REGISTER
-export const register = async (req, res) => {
-    try {
-        const { fullname, email, password } = req.body;
-
-        // Validate các trường dữ liệu trước khi đăng ký
-        const { error } = registerSchema.validate(req.body, { abortEarly: false });
-        if (error) {
-            const errArr = error.details.map((e) => e.message);
-            return res.status(400).json({
-                message: errArr,
+import User from '../models/user.js';
+// import { customerSchema } from '../schemas/';
+// ADD customer
+export const adduser= async (req, res) => {
+      try {
+            // const { error } = customerSchema.validate(req.body, { abortEarly: false });
+            // if (error) {
+            //       const errors = error.details.map((err) => err.message);
+            //       return res.status(400).json({ errors });
+            // }
+            const newCustomer = await User.create(req.body);
+            return res.status(201).json(newCustomer);
+      } catch (error) {
+            return res.status(500).json({
+                  error: error.message
             });
-        }
-
-        // kiểm tra xem email đăng ký đã tồn tại trong db chưa
-        const userExists = await User.findOne({ email });
-
-        if (userExists) {
-            return res.status(400).json({
-                message: `Email already exists. Please choose another email!`,
-            });
-        }
-
-        // mã hóa password trước khi đăng ký
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        // tạo tài khoản
-        const user = await User.create({
-            fullname,
-            email,
-            password: hashedPassword,
-        });
-
-        // để  password là undefined vì không muốn trả về khi thông báo thành công
-        user.password = undefined;
-        return res.status(200).json({
-            message: "Account register successfully!",
-            user,
-        });
-    } catch (error) {
-        return res.status(500).json({
-            message: error.message,
-        });
-    }
+      }
 };
 
-// LOGIN
-export const login = async (req, res) => {
-    try {
-        const { email, password } = req.body;
-
-        // Validate các trường dữ liệu trước khi đăng nhập
-        const { error } = loginSchema.validate(req.body, { abortEarly: false });
-        if (error) {
-            const errArr = error.details.map((e) => e.message);
-            return res.status(400).json({
-                message: errArr,
+// GET LIST customer
+export const getusers = async (req, res) => {
+      try {
+            const customers = await User.find();
+            return res.status(200).json(customers);
+      } catch (error) {
+            return res.status(500).json({
+                  error: error.message
             });
-        }
-
-        // kiểm tra xem tài khoản có tồn tại hay không
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(400).json({
-                message: 'Account does not exist. Please check again',
-            });
-        }
-
-        // so sánh password gửi lên với password trong db có khớp không
-        const comparePassword = await bcrypt.compare(password, user.password);
-        if (!comparePassword) {
-            return res.status(400).json({
-                message: 'Wrong password. Please try again!',
-            });
-        }
-
-        // tạo access token
-        const accessToken = generalAccessToken({
-            _id: user.id,
-            name: user.name,
-            email,
-        });
-
-        return res.status(200).json({
-            message: "Login successfully!",
-            accessToken,
-            user,
-        });
-    } catch (error) {
-        return res.status(500).json({
-            message: error.message,
-        });
-    }
+      }
 };
+
+// GET ONE customer
+export const getuser = async (req, res) => {
+      const { id } = req.params;
+      try {
+            const customer = await User.findById(id);
+            if (!customer) {
+                  return res.status(404).json({ message: "Không tìm thấy khách hàng." });
+            }
+            return res.status(200).json(customer);
+      } catch (error) {
+            return res.status(500).json({
+                  error: error.message
+            });
+      }
+};
+
+// UPDATE customer
+export const updateuser = async (req, res) => {
+      const { id } = req.params;
+      try {
+            const updatedCustomer = await User.findByIdAndUpdate(id, req.body, { new: true });
+            if (!updatedCustomer) {
+                  return res.status(404).json({ message: "Không tìm thấy khách hàng." });
+            }
+            return res.status(200).json(updatedCustomer);
+      } catch (error) {
+            return res.status(500).json({
+                  error: error.message
+            });
+      }
+};
+
+// DELETE customer
+export const deleteuser = async (req, res) => {
+      const { id } = req.params;
+      try {
+            const deletedCustomer = await User.findByIdAndDelete(id);
+            if (!deletedCustomer) {
+                  return res.status(404).json({ message: "Không tìm thấy khách hàng." });
+            }
+            return res.status(200).json({ message: "Khách hàng đã được xóa thành công." });
+      } catch (error) {
+            return res.status(500).json({
+                  error: error.message
+            });
+      }
+};
+
+
+
+

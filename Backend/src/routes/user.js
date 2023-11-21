@@ -1,8 +1,11 @@
-import { Router } from "express";
-import { login, register } from "../controllers/user";
-const router = Router();
+import express from 'express';
+import { adduser, deleteuser, getuser, getusers, updateuser } from '../controllers/user';
 
-router.post("/signup", register);
-router.post("/signin", login);
-
-export default router;
+const routerUser = express.Router();
+routerUser
+    .post('/', adduser)
+    .get('/', getusers)
+    .get('/:id', getuser)
+    .patch('/:id',updateuser)
+    .delete('/:id', deleteuser)
+export default routerUser;
