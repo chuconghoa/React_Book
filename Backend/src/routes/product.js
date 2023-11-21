@@ -1,11 +1,11 @@
 import express from 'express';
 import { addProduct, deleteProduct, getProduct, getProducts, updateProduct } from '../controllers/product';
-import { checkPermission } from '../middlewares/checkPermission';
+// import { checkPermission } from '../middlewares/checkPermission';
 
 const router = express.Router();
 
 router
-    .post('/',checkPermission , addProduct )
+    .post('/' , addProduct )
     .get('/', getProducts)
     .get('/:id', getProduct)
     .patch('/:id', updateProduct)
